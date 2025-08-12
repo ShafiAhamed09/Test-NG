@@ -2,6 +2,7 @@ import java.time.Duration;
 
 import org.checkerframework.dataflow.qual.AssertMethod;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -36,7 +38,7 @@ public class test {
 		System.out.println("Second test");
 
 		WebElement searchField=driver.findElement(By.name("q"));
-		searchField.sendKeys("Facebbook");
+		searchField.sendKeys("Facebbook",Keys.ENTER);
 		Thread.sleep(2000);
 
 
@@ -60,7 +62,7 @@ public class test {
 	}
 	@Parameters("browser")
 	@BeforeSuite
-	public void beforesuite(String browser)
+	public void beforesuite(@Optional("Chrome") String browser)
 	{
 		System.out.println(browser);
 
