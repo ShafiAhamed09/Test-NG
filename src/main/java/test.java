@@ -7,6 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
@@ -18,62 +21,57 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-
+@Test(singleThreaded = true)
 public class test {
 
-	WebDriver driver;
-	
-	
+	 static WebDriver driver;
+
 	@Test
 	public void firstTest() throws InterruptedException {
 
 		System.out.println("testMethod1");
-		
+
 		Thread.sleep(3000);
 	}
-	@Test
-	public void secondTest() throws InterruptedException
-	{
+
+	@Test(groups = { "smoke" })
+	public void secondTest() throws InterruptedException {
 		System.out.println("Second test");
 
-		WebElement searchField=driver.findElement(By.name("q"));
-		searchField.sendKeys("Facebbook",Keys.ENTER);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebElement searchField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("q")));
+
+		searchField.sendKeys("Facebook", Keys.ENTER);
 		Thread.sleep(2000);
-
-
 	}
 
 	@BeforeTest
-	public void beforeTest()
-	{
+	public void beforeTest() {
 		System.out.println("before test");
-		
+
 	}
-	
+
 	@Parameters("URL")
 	@BeforeMethod
-	public void beforeTestMethod(String URL)
-	{
+	public void beforeTestMethod(String URL) {
 
 		System.out.println("Beforemethod");
 		driver.get(URL);
 
 	}
+
 	@Parameters("browser")
-	@BeforeSuite
-	public void beforesuite(@Optional("Chrome") String browser)
-	{
+	@BeforeClass
+	public void beforesuite(@Optional("edge") String browser) {
 		System.out.println(browser);
 
-		switch(browser.toLowerCase())
-		{
+		switch (browser.toLowerCase()) {
 		case "chrome":
-			WebDriverManager.chromedriver().setup();
+			
 			driver = new ChromeDriver();
 			break;
 		case "edge":
-			WebDriverManager.edgedriver().setup();
+			
 			driver = new EdgeDriver();
 			break;
 		default:
@@ -82,42 +80,35 @@ public class test {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-
 	}
-	@BeforeClass
-	public void beforeclass()
-	{
+
+	 @BeforeSuite
+	public void beforeclass() {
 		System.out.println("Before Class");
 
 	}
 
 	@org.testng.annotations.AfterClass
-	public void AfterClass()
-	{
+	public void AfterClass() {
 		System.out.println("After Class");
 
 	}
 
 	@org.testng.annotations.AfterMethod
-	public void AfterMethod()
-	{
+	public void AfterMethod() {
 		System.out.println("AfterMethod");
-		
+
 	}
+
 	@AfterSuite
-	public void afterSuite()
-	{
+	public void afterSuite() {
 		System.out.println("afterSuite");
 		driver.quit();
 	}
+
 	@AfterTest
-	public void aftertest()
-	{
+	public void aftertest() {
 		System.out.println("after Test");
 	}
-
-
-
-
 
 }

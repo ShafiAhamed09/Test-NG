@@ -18,7 +18,7 @@ public class priorty {
 		System.out.println("Search");
 	}
 	
-	@Test(priority=4)
+	@Test(priority=4,enabled=true)
 	public void Scroll(){
 		System.out.println("Scroll");
 	}
